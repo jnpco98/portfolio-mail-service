@@ -1,0 +1,16 @@
+.idea/
+.vscode/
+.vs/
+.next/
+node_modules/
+jspm_packages
+build/
+.build/
+dist/
+tmp/
+temp/
+logs/
+.env
+out/
+.serverless
+.netlify

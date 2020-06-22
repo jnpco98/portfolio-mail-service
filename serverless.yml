@@ -1,0 +1,31 @@
+service: portfolio-mail-service
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  stage: dev
+  region: ${self:custom.region}
+  stackTags:
+    STACK: ${self:service}
+    REGION: ${self:custom.region}
+  profile: serverless-admin
+  
+custom:
+  region: us-east-1
+  serverless-offline:
+    useChildProcesses: true
+
+plugins:
+  - serverless-plugin-typescript
+  - serverless-offline
+
+functions:
+  ascii-text:
+    handler: src/lambdas/endpoints/send-mail.handler
+    memorySize: 256
+    timeout: 30
+    events:
+      - http:
+          path: send-mail
+          method: POST
+          cors: true

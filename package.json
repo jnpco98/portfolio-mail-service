@@ -1,0 +1,20 @@
+{
+  "scripts": {
+    "dev": "serverless offline start --printOutput",
+    "deploy:dev": "serverless deploy --stage dev function --function",
+    "deploy:prod": "serverless deploy --stage production function --function",
+    "full-deploy:dev": "serverless deploy --stage dev",
+    "full-deploy:prod": "serverless deploy --stage production"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.56",
+    "@types/nodemailer": "^6.4.0",
+    "aws-sdk": "^2.701.0",
+    "serverless-offline": "^6.4.0",
+    "serverless-plugin-typescript": "^1.1.9",
+    "typescript": "^3.9.5"
+  },
+  "dependencies": {
+    "nodemailer": "^6.4.10"
+  }
+}
