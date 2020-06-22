@@ -8,7 +8,7 @@ import { createMailOutput } from '../output';
 
 interface SendConfig {
   companyName: string;
-  responseBot: string;
+  agent: string;
   receiver: string;
 }
 
@@ -27,7 +27,6 @@ interface RequestBody {
 
 const DEFAULT_SUCCESS_MSG = 'Message has been sent.';
 const DEFAULT_ERROR_PARAM_MSG = 'Invalid parameters.';
-const DEFAULT_ERROR_MSG = 'Something went wrong with your email. Please try again later.';
 
 const transporter = nodemailer.createTransport({
   SES: new AWS.SES({ apiVersion: '2010-12-01' })
@@ -39,13 +38,13 @@ export async function handler(event: APIGatewayEvent, context: Context): Promise
 
   if(!sendConfig || !messageConfig) return createResponse(422, { error: DEFAULT_ERROR_PARAM_MSG });
 
-  const { companyName = 'N/A', receiver, responseBot = 'DEFAULT_BOT' } = sendConfig;
+  const { companyName = 'N/A', receiver, agent } = sendConfig;
   const { email = 'N/A', firstname = 'N/A', lastname = 'N/A', message = 'Empty message', subject = `[Contact Request] ${email}` } = messageConfig;
 
-  if(!receiver) return createResponse(422, { error: DEFAULT_ERROR_PARAM_MSG });
+  if(!receiver || !agent) return createResponse(422, { error: DEFAULT_ERROR_PARAM_MSG });
 
   const mailOptions: Mail.Options = {
-    from: `${companyName} ${responseBot}`,
+    from: `${companyName} ${agent}`,
     to: receiver,
     subject,
     html: createMailOutput({ email, message, name: `${firstname} ${lastname}` })
@@ -56,6 +55,6 @@ export async function handler(event: APIGatewayEvent, context: Context): Promise
     return createResponse(200, { message: DEFAULT_SUCCESS_MSG, data });
   } catch (e) {
     console.error(e);
-    return createResponse(422, { error: DEFAULT_ERROR_MSG });
+    return createResponse(422, { error: e });
   }
 }

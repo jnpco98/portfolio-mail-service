@@ -9,6 +9,12 @@ provider:
     STACK: ${self:service}
     REGION: ${self:custom.region}
   profile: serverless-admin
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "ses:SendEmail"
+        - "ses:SendRawEmail"
+      Resource: "*"
   
 custom:
   region: us-east-1
@@ -20,10 +26,10 @@ plugins:
   - serverless-offline
 
 functions:
-  ascii-text:
+  send-mail:
     handler: src/lambdas/endpoints/send-mail.handler
     memorySize: 256
-    timeout: 30
+    timeout: 10
     events:
       - http:
           path: send-mail

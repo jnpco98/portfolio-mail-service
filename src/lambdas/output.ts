@@ -1,5 +1,5 @@
 const DEFAULT_OUTPUT = (name: string, email: string, message: string) =>
-    `<p>You have a new contact request</p><h3>Contact Details</h3> <ul> <li>Name: ${name}</li><li>Email: ${email}</li></ul> <h3>Message</h3> <p>${message}</p>`;
+    `<p>You have a new contact request</p><h3>Contact Details</h3> <ul> <li>Name: ${name}</li><li>Email: ${email}</li></ul> <h3>Message</h3> <p style="white-space: pre-wrap">${message}</p>`;
 
 type MailOutputType = 'default';
 
